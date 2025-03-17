@@ -47,9 +47,9 @@ export function useDataTable<TData, TValue>({
   const fallbackPage =
     isNaN(pageAsNumber) || pageAsNumber < 1 ? 1 : pageAsNumber;
 
-  const per_page = searchParams?.get("per_page") ?? "10";
-  const perPageAsNumber = Number(per_page);
-  const fallbackPerPage = isNaN(perPageAsNumber) ? 10 : perPageAsNumber;
+  const limit = searchParams?.get("limit") ?? "10";
+  const limitAsNumber = Number(limit);
+  const fallbackLimit = isNaN(limitAsNumber) ? 10 : limitAsNumber;
 
   const sortColumn = searchParams?.get("sortcolumn") ?? "";
   const sortDir = searchParams?.get("sortdir") ?? "0";
@@ -60,21 +60,21 @@ export function useDataTable<TData, TValue>({
     (params: Record<string, string | number | null>) => {
       const newSearchParams = new URLSearchParams(searchParams?.toString());
 
-      // Remove existing page and per_page if they are default values
+      // Remove existing page and limit if they are default values
       if (newSearchParams.get("page") === "1") {
         newSearchParams.delete("page");
       }
-      if (newSearchParams.get("per_page") === "10") {
-        newSearchParams.delete("per_page");
+      if (newSearchParams.get("limit") === "10") {
+        newSearchParams.delete("limit");
       }
 
       for (const [key, value] of Object.entries(params)) {
-        // Only add page and per_page to URL if they're not default values
+        // Only add page and limit to URL if they're not default values
         if (key === "page" && value === 1) {
           newSearchParams.delete(key);
           continue;
         }
-        if (key === "per_page" && value === 10) {
+        if (key === "limit" && value === 10) {
           newSearchParams.delete(key);
           continue;
         }
@@ -127,7 +127,7 @@ export function useDataTable<TData, TValue>({
   // handle server-side pagination
   const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
     pageIndex: fallbackPage - 1,
-    pageSize: fallbackPerPage,
+    pageSize: fallbackLimit,
   });
 
   const pagination = useMemo(
@@ -136,14 +136,14 @@ export function useDataTable<TData, TValue>({
   );
 
   useEffect(() => {
-    setPagination({ pageIndex: fallbackPage - 1, pageSize: fallbackPerPage });
-  }, [fallbackPage, fallbackPerPage]);
+    setPagination({ pageIndex: fallbackPage - 1, pageSize: fallbackLimit });
+  }, [fallbackPage, fallbackLimit]);
 
   useEffect(() => {
     const newPage = pageIndex + 1;
     const queryString = createQueryString({
       page: newPage,
-      per_page: pageSize,
+      limit: pageSize,
     });
 
     router.push(`${pathname}${queryString ? `?${queryString}` : ""}`, {
@@ -191,7 +191,7 @@ export function useDataTable<TData, TValue>({
     // Initialize new params
     const newParamsObject: Record<string, string | number | null> = {
       page: 1,
-      per_page: 10,
+      limit: 10,
     };
 
     // Handle debounced searchable column filters

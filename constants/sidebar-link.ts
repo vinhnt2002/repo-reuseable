@@ -76,20 +76,20 @@ export const routes: Route[] = [
   //   ],
   // },
   {
-    label: "Quản lý dịch vụ",
+    label: "Quản lý sản phẩm",
     icon: MdMiscellaneousServices,
     activeIcon: MdMiscellaneousServices,
     isParent: true,
     allowsRoles: [UserRole.MANAGER],
     children: [
       {
-        label: "Danh sách dịch vụ",
-        href: "/dashboard/services",
+        label: "Danh sách sản phẩm",
+        href: "/dashboard/products",
         icon: FaRegListAlt,
         activeIcon: FaListAlt,
       },
       {
-        label: "Tạo mới dịch vụ",
+        label: "Tạo mới sản phẩm",
         href: "/dashboard/services/create_service",
         icon: BadgePlus,
         activeIcon: BadgePlus,
@@ -97,21 +97,21 @@ export const routes: Route[] = [
     ],
   },
   {
-    label: "Quản lý đơn ",
+    label: "Quản lý đơn",
     icon: TbBrandBooking,
     activeIcon: TbBrandBooking,
     isParent: true,
     allowsRoles: [UserRole.MANAGER, UserRole.REVIEWER],
     children: [
       {
-        label: "Đơn đặt bánh",
-        href: "/dashboard/bookings",
+        label: "Đơn đặt hàng",
+        href: "/dashboard/orders",
         icon: FaRegListAlt,
         activeIcon: FaListAlt,
       },
       {
-        label: "Đơn khách custom",
-        href: "/dashboard/bookings_exception",
+        label: "Đơn khách sản phẩm",
+        href: "/dashboard/orders",
         icon: ShieldAlert,
         activeIcon: ShieldAlert,
       },
@@ -140,7 +140,7 @@ export const routes: Route[] = [
     href: "/dashboard/transactions",
     allowsRoles: [UserRole.MANAGER],
   },
-    {
+  {
     label: "Danh sách khuyến mãi",
     icon: FaGifts,
     activeIcon: FaGifts,

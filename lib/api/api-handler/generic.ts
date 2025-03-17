@@ -43,21 +43,21 @@ export async function fetchListData<T>(
 ): Promise<Result<ApiListResponse<T>>> {
   const result = await apiRequest<{
     payload: T[];
-    metaData: {
-      totalItemsCount: number;
-      pageSize: number;
-      totalPagesCount: number;
+    metadata: {
+      totalItems: number;
+      limit: number;
+      totalPages: number;
     };
   }>(() => axiosAuth.get(url, { params: searchParams }));
 
   if (result.success) {
-    const { payload, metaData } = result.data;
+    const { payload, metadata } = result.data;
     return {
       success: true,
       data: {
         data: payload || [],
-        pageCount: metaData?.totalPagesCount || 0,
-        totalItemsCount: metaData?.totalItemsCount || 0
+        pageCount: metadata?.totalPages || 0,
+        totalItemsCount: metadata?.totalItems || 0
       }
     };
   }
